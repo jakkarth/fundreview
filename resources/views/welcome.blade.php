@@ -6,7 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>FundReview</title>
-
+      <link rel="stylesheet" href="{!! asset('css/app.css') !!}"></script>
+<script type="text/javascript" src="{!! asset('js/app.js') !!}"></script>
+      <script src="https://unpkg.com/vue-star-rating/dist/star-rating.min.js"></script>
+      <script type="text/javascript">Vue.component('star-rating', VueStarRating.default);</script>
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
@@ -49,7 +52,7 @@
                 font-size: 84px;
             }
 
-      .subtitle {
+.subtitle, .fundname {
           font-size: 40px;
        }
 
@@ -66,6 +69,14 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+.list-group {
+              text-align: left;
+    max-width: 800px;
+ }
+
+.starz {
+              display: inline-block !important;
+              }
         </style>
     </head>
     <body>
@@ -78,7 +89,11 @@
       @if (!empty($reviews))
       <ul class="list-group">
       @foreach ($reviews as $review)
-      <li><?php echo sprintf('%01.1f', $review->rating).' '.htmlspecialchars($review->fundraiser); ?></li>
+      <li class="list-group-item">
+        <star-rating class="starz pull-left" id="review_<?php echo htmlspecialchars($review->id); ?>" :read-only="readonly" :rating="rating" :increment="increment"></star-rating>
+        <div class="fundname pull-right"><?php echo htmlspecialchars($review->fundraiser); ?></div><div class="clearfix"></div>
+      <div><?php echo htmlspecialchars($review->review); ?><br><small class="text-muted pull-right"><?php echo htmlspecialchars($review->name); ?></small><div class="clearfix"></div></div>
+      </li> <script type="text/javascript">new Vue({el: "#review_<?php echo htmlspecialchars($review->id); ?>",data:{readonly:true,increment:0.01,rating:<?php echo sprintf('%01.1f', $review->rating*mt_rand(1,10)/10.0);?>}});</script>
       @endforeach
       </ul>
       @else
