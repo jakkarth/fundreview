@@ -14,9 +14,9 @@
         <style>
             html, body {
                 background-color: #fff;
-                color: #636b6f;
+                color: #000;
                 font-family: 'Raleway', sans-serif;
-                font-weight: 100;
+                font-weight: bold;
                 height: 100vh;
                 margin: 0;
             }
@@ -75,7 +75,17 @@
                     FundReview
                 </div>
       <div class="subtitle m-b-md">Where people review fundraising platforms!</div>
-            </div>
+      @if (!empty($reviews))
+      <ul class="list-group">
+      @foreach ($reviews as $review)
+      <li><?php echo sprintf('%01.1f', $review->rating).' '.htmlspecialchars($review->fundraiser); ?></li>
+      @endforeach
+      </ul>
+      @else
+      <div class="">No reviews entered yet!</div>
+      @endif
+      </div>{{-- content --}}
+
         </div>
     </body>
 </html>

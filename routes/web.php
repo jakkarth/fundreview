@@ -12,5 +12,6 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $reviews = \App\Review::all();
+    return view('welcome', ['reviews'=>$reviews]);
 });
