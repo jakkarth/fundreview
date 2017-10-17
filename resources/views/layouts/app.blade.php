@@ -86,7 +86,7 @@
     </head>
     <body>
         <div class="flex-center">
-            <div class="content">
+            <div class="content m-b-md">
                       <div class="title m-b-md">
                     FundReview
                 </div>

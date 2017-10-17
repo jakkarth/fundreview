@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <a class="btn btn-success subtitle m-b-md" href="/submit">Submit your own review! <span class="glyphicon glyphicon-arrow-right"></span></a>
       @if (!empty($reviews))
       <ul class="list-group">
       @foreach ($reviews as $review)
