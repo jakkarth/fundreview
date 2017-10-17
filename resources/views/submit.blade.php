@@ -36,7 +36,7 @@
     <div id="starzshell">
     <star-rating class="starz" style="display:block;" id="starz" :increment="increment" @rating-selected="setRating"></star-rating><input type="hidden" id="ratinghidden" name="rating" value="">
     </div>
-    </div><script type="text/javascript">new Vue({el: "#starzshell",methods:{setRating:function(r){document.getElementById('ratinghidden').value=r;}},data:{increment:0.5}});</script>
+    </div><script type="text/javascript">new Vue({el: "#starzshell",methods:{setRating:function(r){document.getElementById('ratinghidden').value=r;}},data:{increment:1}});</script>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
         </div>

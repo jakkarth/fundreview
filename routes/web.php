@@ -34,5 +34,16 @@ Route::post('/submit', function(Request $request) {
         return redirect('/submit')->withErrors($validator)->withInput();
     }
 
+    //TODO verify that this email address hasn't submitted for this fundraiser before
+
+    $review = new \App\Review;
+
+    $review->fundraiser = $request->fundraiser;
+    $review->name = $request->name;
+    $review->email = $request->email;
+    $review->review = $request->review;
+    $review->rating = $request->rating;
+    $review->save();
+
     return redirect('/');
 });
