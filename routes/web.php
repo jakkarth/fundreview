@@ -1,4 +1,6 @@
 <?php
+use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +18,25 @@ Route::get('/', function () {
     return view('welcome', ['reviews'=>$reviews]);
 });
 
+Route::get('/autocomplete', function(Request $request) {
+    if (strlen($request->q) < 2) {
+        return '';
+    }
+    $reviews = \App\Review::where('fundraiser','like',$request->q.'%')->select('fundraiser')->groupBy('fundraiser')->orderBy('fundraiser')->get();
+    if ($reviews->count() < 1) {
+        return '<div class="alert alert-success">Be the first to review this fundraiser!</div>';
+    }
+    $ret = '<div class="list-group">';
+    foreach ($reviews as $r) {
+        $ret .= '<a class="list-group-item list-group-item-action" onClick="selectFundraiser(\''.addslashes($r->fundraiser).'\')">'.htmlspecialchars($r->fundraiser).'</a>';
+    }
+    $ret .= '</div>';
+    return $ret;
+});
+
 Route::get('/submit', function() {
     return view('submit');
 });
-
-use Illuminate\Http\Request;
 
 Route::post('/submit', function(Request $request) {
     //validate the basics of the form

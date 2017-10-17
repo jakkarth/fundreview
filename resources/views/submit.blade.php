@@ -17,7 +17,8 @@
                 {!! csrf_field() !!}
                 <div class="form-group">
                     <label for="fundraiser">Name of the Fundraiser</label>
-                    <input type="text" class="form-control" id="fundraiser" name="fundraiser" placeholder="Booster" value="{{ old('fundraiser') }}">
+                    <input type="text" class="form-control" id="fundraiser" name="fundraiser" placeholder="Booster" value="{{ old('fundraiser') }}" autocomplete="off">
+                    <div id="suggestion-box" style="display: none;"></div>
                 </div>
                 <div class="form-group">
                     <label for="name">Your Name</label>
@@ -41,4 +42,26 @@
             </form>
         </div>
     </div>
+    <script type="text/javascript">
+    $(document).ready(function(){
+	$("#fundraiser").keyup(function(){
+        if ($(this).val().length < 2) return;
+        console.log('sending');
+		jQuery.ajax({
+		type: "GET",
+		url: "/autocomplete",
+		data:'q='+$(this).val(),
+		success: function(data){
+                console.log(data);
+			$("#suggestion-box").show();
+			$("#suggestion-box").html(data);
+		}
+		});
+	});
+});
+function selectFundraiser(val) {
+  $("#fundraiser").val(val);
+  $("#suggestion-box").hide();
+}
+    </script>
 @endsection

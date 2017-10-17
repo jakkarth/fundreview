@@ -6,14 +6,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>FundReview</title>
-      <link rel="stylesheet" href="{!! asset('css/app.css') !!}"></script>
-<script type="text/javascript" src="{!! asset('js/app.js') !!}"></script>
-      <script src="https://unpkg.com/vue-star-rating/dist/star-rating.min.js"></script>
-      <script type="text/javascript">Vue.component('star-rating', VueStarRating.default);</script>
-        <!-- Fonts -->
+        <script type="text/javascript" src="{!! asset('js/app.js') !!}"></script>
+        <script src="https://unpkg.com/vue-star-rating/dist/star-rating.min.js"></script>
+        <script type="text/javascript">Vue.component('star-rating', VueStarRating.default);</script>
+        <script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+
+      <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
+        <link rel="stylesheet" href="{!! asset('css/app.css') !!}"></script>
         <style>
             html, body {
                 background-color: #fff;
