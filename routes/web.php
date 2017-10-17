@@ -23,6 +23,7 @@ Route::get('/submit', function() {
 use Illuminate\Http\Request;
 
 Route::post('/submit', function(Request $request) {
+    //validate the basics of the form
     $validator = Validator::make($request->all(), [
         'fundraiser'=>'required|max:255',
         'name'=>'required|max:255',
@@ -34,10 +35,15 @@ Route::post('/submit', function(Request $request) {
         return redirect('/submit')->withErrors($validator)->withInput();
     }
 
-    //TODO verify that this email address hasn't submitted for this fundraiser before
+    //validate that this user hasn't already submitted a review for this fundraiser
+    $reviews = App\Review::where([['email','=',strtolower($request->email)], ['fundraiser','=',$request->fundraiser]])->get();
+    if ($reviews->count() > 0) {
+        $validator->errors()->add('fundraiser', 'You have already submitted a review for this fundraiser!');
+        return redirect('/submit')->withErrors($validator)->withInput();
+    }
 
+    //validation appears to pass, save the record to the database
     $review = new \App\Review;
-
     $review->fundraiser = $request->fundraiser;
     $review->name = $request->name;
     $review->email = $request->email;
@@ -45,5 +51,6 @@ Route::post('/submit', function(Request $request) {
     $review->rating = $request->rating;
     $review->save();
 
+    //and return us to the listing
     return redirect('/');
 });
