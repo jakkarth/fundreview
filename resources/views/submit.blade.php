@@ -17,7 +17,7 @@
                 {!! csrf_field() !!}
                 <div class="form-group">
                     <label for="fundraiser">Name of the Fundraiser</label>
-                    <input type="text" class="form-control" id="fundraiser" name="fundraiser" placeholder="Booster" value="{{ old('fundraiser') }}" autocomplete="off">
+                    <input type="text" class="form-control" id="fundraiser" name="fundraiser" placeholder="Booster" value="<?php echo empty(old('fundraiser'))?(empty($fundraiser)?'':htmlspecialchars($fundraiser)):old('fundraiser'); ?>" autocomplete="off">
                     <div id="suggestion-box" style="display: none;"></div>
                 </div>
                 <div class="form-group">

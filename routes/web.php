@@ -18,6 +18,12 @@ Route::get('/', function () {
     return view('welcome', ['reviews'=>$reviews]);
 });
 
+Route::get('/details/{id}', function($id) {
+    $reviews = \App\Review::where('id','=',$id)->get()->first();
+    $reviews = \App\Review::where('fundraiser','=',$reviews->fundraiser)->orderBy('created_at')->paginate(10);
+    return view('details', ['reviews'=>$reviews]);
+});
+
 Route::get('/autocomplete', function(Request $request) {
     if (strlen($request->q) < 2) {
         return '';
@@ -34,8 +40,8 @@ Route::get('/autocomplete', function(Request $request) {
     return $ret;
 });
 
-Route::get('/submit', function() {
-    return view('submit');
+Route::get('/submit/{fundraiser?}', function($fundraiser='') {
+    return view('submit', ['fundraiser'=>$fundraiser]);
 });
 
 Route::post('/submit', function(Request $request) {
