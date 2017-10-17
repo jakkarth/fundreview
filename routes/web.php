@@ -13,25 +13,33 @@ use Illuminate\Http\Request;
 |
 */
 
+//primary listing page
 Route::get('/', function () {
     $reviews = \App\Review::allOrdered();
     return view('welcome', ['reviews'=>$reviews]);
 });
 
+//view all reviews for a particular fundraiser
 Route::get('/details/{id}', function($id) {
     $reviews = \App\Review::where('id','=',$id)->get()->first();
     $reviews = \App\Review::where('fundraiser','=',$reviews->fundraiser)->orderBy('created_at')->paginate(10);
     return view('details', ['reviews'=>$reviews]);
 });
 
+//api response to autocomplete on the submit page
 Route::get('/autocomplete', function(Request $request) {
+    //no need to do single-character hints
     if (strlen($request->q) < 2) {
         return '';
     }
+
+    //mysql's 'like' function is case-insensitive
     $reviews = \App\Review::where('fundraiser','like',$request->q.'%')->select('fundraiser')->groupBy('fundraiser')->orderBy('fundraiser')->get();
     if ($reviews->count() < 1) {
+        //no existing reviews for this fundraiser
         return '<div class="alert alert-success">Be the first to review this fundraiser!</div>';
     }
+    //build a list of existing options to hint the user towards
     $ret = '<div class="list-group">';
     foreach ($reviews as $r) {
         $ret .= '<a class="list-group-item list-group-item-action" onClick="selectFundraiser(\''.addslashes($r->fundraiser).'\')">'.htmlspecialchars($r->fundraiser).'</a>';
@@ -40,10 +48,12 @@ Route::get('/autocomplete', function(Request $request) {
     return $ret;
 });
 
+//submit a new review, possibly prepopulating the name
 Route::get('/submit/{fundraiser?}', function($fundraiser='') {
     return view('submit', ['fundraiser'=>$fundraiser]);
 });
 
+//validate and save a new review entry
 Route::post('/submit', function(Request $request) {
     //validate the basics of the form
     $validator = Validator::make($request->all(), [
