@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    $reviews = \App\Review::all();
+    $reviews = \App\Review::allOrdered();
     return view('welcome', ['reviews'=>$reviews]);
 });
 

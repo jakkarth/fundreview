@@ -7,7 +7,11 @@
       <li class="list-group-item">
         <star-rating class="starz pull-left" id="review_<?php echo htmlspecialchars($review->id); ?>" :read-only="readonly" :rating="rating" :increment="increment"></star-rating>
         <div class="fundname pull-right"><?php echo htmlspecialchars($review->fundraiser); ?></div><div class="clearfix"></div>
-      <div><?php echo htmlspecialchars($review->review); ?><br><small class="text-muted pull-right"><?php echo htmlspecialchars($review->name); ?></small><div class="clearfix"></div></div>
+      <div><?php echo htmlspecialchars($review->review); ?><br><small class="text-muted pull-right"><?php echo htmlspecialchars($review->name); ?></small>
+@if ($review->count > 1)
+    <br><small class="text-muted pull-right"><?php echo ($review->count - 1); ?> other review<?php echo ($review->count == 2)?'':'s'; ?></small>
+@endif
+      <div class="clearfix"></div></div>
       </li> <script type="text/javascript">new Vue({el: "#review_<?php echo htmlspecialchars($review->id); ?>",data:{readonly:true,increment:0.01,rating:<?php echo sprintf('%01.1f', $review->rating);?>}});</script>
       @endforeach
       </ul>
