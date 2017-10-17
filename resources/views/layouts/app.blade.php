@@ -76,7 +76,7 @@
             }
 .list-group {
               text-align: left;
-    max-width: 800px;
+    max-width: 1200px;
  }
 
 .starz {

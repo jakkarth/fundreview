@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
 
-    public $count = 0, $sum = 0;
+    public $count = 0, $sum = 0, $sort = 0;
 
     static function allOrdered() {
         $all = Review::all()->shuffle();
@@ -22,10 +22,13 @@ class Review extends Model
                 $ret[$review->fundraiser]->sum += $review->rating;
             }
         }
-        $collection = collect($ret)->map(function($r) {
-            $r->rating = $r->sum / $r->count;
-            return $r;
-        });
-        return $collection->sortBy('rating')->reverse();
+
+        $c = $all->count() / (count($ret));
+        $m = 3;
+        foreach ($ret as $k=>$r) {
+            $ret[$k]->rating = $ret[$k]->sum / $ret[$k]->count;
+            $ret[$k]->sort = ($c * $m + $ret[$k]->sum) / ($c + $ret[$k]->count);
+        }
+        return collect($ret)->sortBy('sort')->reverse();
     }
 }
