@@ -22,7 +22,9 @@ class Review extends Model
                 $ret[$review->fundraiser]->sum += $review->rating;
             }
         }
-
+        if (count($ret) < 1) {
+            return collect(array());
+        }
         $c = $all->count() / (count($ret));
         $m = 3;
         foreach ($ret as $k=>$r) {
